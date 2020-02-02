@@ -1,0 +1,511 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{svg}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{amsthm,amssymb}
+\usepackage{amsmath}
+\usepackage{mathdots}
+\theoremstyle{plain}
+
+
+\usepackage[top=3cm, bottom=1.5cm]{geometry}
+
+\theoremstyle{definition}
+\newtheorem*{defi*}{Def}
+\newtheorem{defi}{Def}
+
+\newtheorem*{tw*}{Tw}
+\newtheorem{tw}{Tw}
+
+\newtheorem*{ex*}{Przykład}
+\newtheorem{ex}{Przykład}
+
+\theoremstyle{definition}
+\newtheorem*{not*}{Uwaga}
+
+
+\title{Geometria różniczkowa}
+\author{Dariusz Kwiatkowski}
+\date{Luty 2020}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Opis jako wykres, poziomica, przez parametryzację}
+
+\begin{itemize}
+    \item jako poziomica $U = \{ p \in W : F(p) = const \}$, $F: W \to \mathbb{R}$
+    \item jako parametryzacja $U = \{ \phi(t) : t \in U \}$
+    \item jako wykres $M = \{ (u, f(u)) : u \in U \}$, $W = U \times V$, $f: U \to V$
+\end{itemize}
+
+\section{Parametryzacja regularna i łukowa krzywej}
+
+\begin{defi*} 
+    Parametryzację nazywa się regularną, gdy jest różniczkowalna oraz jej pochodna jest różna od 0. 
+\end{defi*}
+
+\begin{defi*}
+    Parametryzację nazywa się łukową, o ile $\forall_{t_1, t_2 \in [a,b]} l(c|_{[t_1,t_2]}) = t_2 - t_1$ \\
+    Gdzie $l$ oznacza długość krzywej.
+    
+    \begin{not*} 
+    Jeśli krzywa jest różniczkowalna, regularna oraz $\Vert c'(t) \Vert = 1$ to jest ona łukowa.
+    
+    \end{not*}
+\end{defi*}
+
+\section{Reper i wzory Freneta}
+
+\begin{defi*}
+    Reper Freneta to zbiór wektorów parametryzujących krzywą w danym punkcie. Niech $c: [a, b] \to \mathbb{R}^n$, $t_o \in [a, b] $, $c$ - krzywa regularna oraz $e_i$ jest wektorem, który jest:
+    \begin{itemize}
+        \item zawarty w przestrzeni generowanej przez $\{ c'(t_0), \ldots, c^{(i)}(t_0) \}$
+        \item prostopadły do przestrzeni generowanej przez $\{ c'(t_0), \ldots, c^{(i-1)}(t_0) \}$
+        \item jest unormowany i zorientowany (względem strony tej samej co hiperpłaszczyzna)
+        \item $e_n$ jest wybrany tak, że układ $\{ c'(t_0), \ldots, c^{(n)}(t_0) \}$ jest dodatnio zorientowany
+    \end{itemize}
+\end{defi*}
+
+\begin{not*}
+    Reper Freneta nie zależy od parametryzacji.
+\end{not*}
+
+
+Niech $c: (a, b) \to \mathbb{R}^n$ jest parametryzacją krzywej różniczkowalnej, a  $\{ c'(t_0), \ldots, c^{(n)}(t_0) \}$ jej reperem Freneta. Wtedy :
+
+\begin{align*}
+        \left[
+           \begin{array}{c}
+                e_1'(t) \\
+                \vdots \\
+                \vdots \\
+                e_n'(t)
+            \end{array}
+        \right] & = \left[
+           \begin{array}{ccccc}
+                0 & k_1(t) & 0 & \ldots & 0 \\
+                -k_1(t) & 0 & \ldots & \ldots & 0 \\
+                \vdots & \vdots & \vdots & \vdots & \vdots \\
+                0 & \ddots & 0 & -k_{n-1}(t) & 0
+            \end{array}
+        \right] \left[ \begin{array}{c}
+                e_1(t) \\
+                \vdots \\
+                \vdots \\
+                e_n(t)
+            \end{array}
+            \right]
+\end{align*}
+
+
+\noindent $k_i(t)$ - $i$-ta krzywizna \\
+$k_1$ - krzywizna krzywej \\
+$k_2$ - skręcenie (torsja)
+
+\section{Krzywizna i wyższe krzywizny krzywej}
+
+Krzywizna informuje nas jak krzywa "skręca". Wyższe krzywizny opisują jak krzywa odkręca się od przestrzeni generowanej przez $\{ c'(t), c''(t) ,\ldots \}$. Wyższe krzywizny są dodatnie, prócz ostatniej.
+
+\begin{not*}
+
+Krzywizna krzywej w $\mathbb{R}^3$:
+\begin{align*}
+    K_c(t) = \frac{det(c'(t) \times c''(t))}{\Vert c'(t) \Vert^3}
+\end{align*}
+
+\end{not*}
+
+\section{Rozmaitość i powierzchnia. Atlas i struktura różniczkowa}
+
+\begin{defi*}
+Rozmaitość to przestrzeń dla której istnieje $n \in \mathbb{N}$ taka, że jest ona lokalnie homeomorficzna z $\mathbb{R}^{n}$ lub z $\mathbb{R}_{\geq 0}^n = \{x_1, \ldots, x_n | x_1 \geq 0 \}$. \\
+Dodatkowo większość matematyków przyjmuje, że jest metryzowalna i ma przeliczalną bazę topologiczną.
+\end{defi*}
+
+\begin{defi*}
+Mapą na rozmaitości $M$ nazywamy parę $(U_i, \phi_i)$, gdzie $U_i$ jest otwartym otoczeniem $M$, a $\phi_i: U_i \to \mathbb{R}^n$ jest homeomorfizmem.
+\end{defi*}
+
+\begin{defi*}
+Atlasem nazywamy zbiór map, taki że $\bigcup_{\alpha \in I} U_\alpha = M$. Mówimy, że atlas jest gładki (klasy $C^k$) jeżeli funkcje $\phi_\beta \circ \phi_\alpha^{-1}$ są gładkie (klasy $C^k$)
+\end{defi*}
+
+\begin{defi*}
+Niech $\{ U_\alpha, \phi_\alpha \}$, $\{ U_\beta, \phi_\beta \}$ będą atlasami odpowiednio $N$ i $M$. Odwzorowanie $f: M \to N$ jest gładkie (klasy $C^k$) jeśli funkcje $\phi_\beta \circ f \circ \phi_\alpha^{-1} $ są gładkie (klasy $C^k$).
+\end{defi*}
+
+\begin{defi*}
+Dwa atlasy na tej samej powierzchni $M$ są równoważne, gdy identyczność na $M$ jest funkcją gładką (klasy $C^k$).
+\end{defi*}
+
+\begin{defi*}
+Gładką (klasy $C^k$) $n$-wymiarową rozmaitością nazywamy przestrzeń topologiczną wraz z definiowaną na niej klasą atlasów równoważnych. Klasy równoważności atlasów nazywamy strukturą różniczkową rozmaitości $M$.
+\end{defi*}
+
+\section{Przestrzeń styczna, płaszczyzna styczna i wiązka styczna}
+
+Dla powierzchni zanurzonej w $\mathbb{R}^3$, podanej przez parametryzację $\Phi: \mathbb{R}^2 \supset U \to \mathbb{R}^3$ obliczamy wektory styczne jako:
+
+\begin{align*}
+    \frac{\partial(\Phi \circ c)}{\partial t}, \text{gdzie $c$ jest krzywą na $U$}
+\end{align*}
+
+\noindent W szczególności można rozpatrywać krzywe $\phi: t \mapsto (t, v_0)$ lub $\psi: t \mapsto (u_0, t)$.
+
+\begin{defi*}
+Przestrzeń styczna w punkcie $p$ to przestrzeń generowana przez $\{ \frac{\partial u}{\partial t}(0), \frac{\partial v}{\partial t}(0) \}$, zakładając, że $u(0) = p$ oraz $v(0) = p$,  $u: t \mapsto (t, p_2)$ lub $v: t \mapsto (p_1, t)$.
+\\ \\
+Inaczej - Zbiór wektorów stycznych w punkcie $p$ do $M$ nazywamy przestrzenią styczną i oznaczamy $T_pM$.
+\end{defi*}
+
+\begin{defi*}
+Wiązką styczną nazywamy strukturę $TM = \bigcup_{p \in M} T_pM$
+\end{defi*}
+
+\section{Pierwsza forma kwadratowa}
+
+Pierwszą formą kwadratową powierzchni M w punkcie p nazywamy iloczyn skalarny:
+
+\begin{align*}
+    \left<, \right>: T_pM \times T_pM \to \mathbb{R}
+\end{align*}
+
+\noindent który wyraża się za pomocą macierzy:
+
+\begin{align*}
+    \begin{split}
+       I = &\left[
+    \begin{array}{cc}
+        E & F \\
+        F & G
+    \end{array}
+    \right]
+    \end{split}
+    \begin{split}
+     E = \left< \frac{\partial}{\partial x}, \frac{\partial}{\partial x} \right>, F = \left< \frac{\partial}{\partial x}, \frac{\partial}{\partial y} \right>, G = \left< \frac{\partial}{\partial y}, \frac{\partial}{\partial y} \right>
+    \end{split}
+\end{align*}
+
+\section{Metryka Riemanna}
+\begin{defi*}
+Metryką Riemanna na powierzchni M nazywamy różniczkowe przyporządkowanie każdemu punktowi $p \in M$ iloczynu skalarnego na przestrzeni $T_pM$. Macierz $g_ij = \left< \frac{\partial}{\partial x_i}, \frac{\partial}{\partial x_j} \right>$ (w tym przypadku iloczyn skalarny, to zwykły iloczyn skalarny na $\mathbb{R}^n$) wyznacza jednoznacznie metrykę Riemanna. Załóżmy bowiem, że mamy dwie krzywe $c$, $d$ na M zanurzonej w $\mathbb{R}^3$. Ustalmy dowolny punkt $p \in M$. Wtedy:
+
+\begin{align*}
+    c'(p) = c_1'(p)\frac{\partial (p)}{\partial x_1} + c_2'(p)\frac{\partial (p)}{\partial x_2}
+\end{align*}
+
+\begin{align*}
+    d'(p) = d_1'(p)\frac{\partial (p)}{\partial x_1} + d_2'(p)\frac{\partial (p)}{\partial x_2}
+\end{align*}
+
+\noindent Aby policzyć iloczyn skalarny (wyznaczony przez metrykę Riemanna) wystarczy policzyć:
+
+\begin{align*}
+    \left< c'(p), d'(p) \right> = \left<  c_1'(p)\frac{\partial (p)}{\partial x_1} + c_2'(p)\frac{\partial (p)}{\partial x_2}, d_1'(p)\frac{\partial (p)}{\partial x_1} + d_2'(p)\frac{\partial (p)}{\partial x_2} \right> = \sum_{i,j=1}^2 g_{ij}c_i'd_j'
+\end{align*}
+
+\begin{not*}
+Powyższe wyliczenia nie muszą ograniczać się tylko do powierzchni zanurzonej w $\mathbb{R}^3$. Łatwo można przejść do $\mathbb{R}^n$.
+\end{not*}
+
+\begin{not*}
+Rozmaitość różniczkowa wraz ze zdefiniowaną metryką Riemanna tworzy Rozmaitość Riemannowską
+\end{not*}
+
+
+
+
+\end{defi*}
+
+\section{Odwzorowanie sferyczne, druga forma kwadratowa}
+\begin{defi*}
+Odwzorowaniem sferycznym nazywamy ciągłe przekształcenie $n: M \to S^2$, które każdemu punktowi powierzchni $M \subset \mathbb{R}^3$ przyporządkowuje wektor normalny do $M$.
+\end{defi*}
+\noindent Jeśli dla danej powierzchni $M$ istnieje odwzorowanie sferyczne $n$ to mówimy, że powierzchnia $M$ jest zorientowana.
+
+\begin{not*}
+Poniższa definicja także może być traktowana jako odwzorowanie sferyczne.
+\end{not*}
+
+\begin{defi*}
+Niech $p \in M$, $c: I \to M$ dowolna różniczkowalna krzywa taka, że $c(0) = p$ . Definiujemy odwzorowanie sferyczne $ dn_p: T_pM \to T_{n(p)}S^2$ wzorem: 
+\begin{align*}
+    dn_p(c'(0)) = (n \circ c)'(0)
+\end{align*}
+
+\end{defi*}
+
+\begin{defi*}
+Odwzorowanie, które każdemu punktowi $p \in M$ przyporządkowuje formę kwadratową \\ ${T_pM \ni x \mapsto <-dn_p(x), x > }$ nazywamy drugą formą kwadratową. Przy rozwinięciu względem bazy $\{ \frac{\partial}{\partial u}, \frac{\partial}{\partial v} \}$ współrzędne nazywamy L, M, N.
+\end{defi*}
+
+\section{Równania geodezyjnych i geodezyjne}
+
+\begin{tw*}
+Niech $r: U \to M$ będzie lokalną parametryzacją (lokalną mapą), niech c będzie krzywą leżącą w $r(U)$ i niech ${r^{-1}(c(t)) = (x_1(t), \ldots ,x_n(t))}$. Następujące warunki są równoważne:
+\begin{enumerate}
+    \item $c$ jest geodezyjną sparametryzowaną łukowo
+    \item $c$ jest rozwiązaniem układu równań:
+    
+    \begin{align*}
+        \frac{\partial^2x_k}{\partial t^2} + \sum_{i,j=1}^n \Gamma_{ij}^k \frac{\partial x_i}{\partial t}  \frac{\partial x_j}{\partial t} = 0
+        \end{align*}
+\end{enumerate}
+
+\end{tw*}
+
+\begin{defi*}
+Niech $c: I \to M$ będzie łukową parametryzacją krzywej. Jeśli dla każdego $t_0 \in I$ istnieje $\delta > 0$ taka, że każdy odcinek $c|_[t_0, t_1]$ długości mniejszej niż $\delta$ jest najkrótszą krzywą łączącą $c(t_0)$, $c(t_1)$ to mówimy, że $c$ jest krzywą geodezyjną
+\end{defi*}
+
+\begin{not*}
+Krzywą $c$ jest geodezyjną $\iff$ $c$ jest krzywą o parametryzacji łukowej o krzywiźnie geodezyjnej równej 0. 
+\end{not*}
+
+\begin{tw*}
+Niech $M$ będzie powierzchnią, wówczas:
+\begin{enumerate}
+    \item $\forall_{p \in M}$ oraz $\forall_{v \in T_pM}$ istnieje $\varepsilon > 0$ i dokładnie jedna, sparametryzowana geodezyjna\\ ${c:(-\varepsilon, \varepsilon) \to M}$ taka, że $c(0) = p$ i $c'(0) = v$
+    \item dwa dowolne, dostatecznie bliskie punkty M można połączyć dokładnie jedną sparametryzowaną łukowo krzywą geodezyjną
+\end{enumerate}
+\end{tw*}
+
+
+\section{Krzywizna Gaussa i Riemanna}
+
+\begin{defi*}
+Niech $p \in M$, $c: I \to M$ dowolna różniczkowalna krzywa taka, że $c(0) = p$ . Definiujemy odwzorowanie sferyczne $ dn_p: T_pM \to T_{n(p)}S^2$ wzorem: 
+\begin{align*}
+    dn_p(c'(0)) = (n \circ c)'(0)
+\end{align*}
+
+\end{defi*}
+
+\begin{defi*}
+Krzywizną Gaussa w punkcie p definiujemy poprzez $K(p) = det(dn_p)$
+\end{defi*}
+
+\begin{defi*}
+Tensor krzywizny Riemanna (krzywizna Riemanna) wraża się wzorem:
+\begin{align*}
+     R(u,v)w=\nabla _{u}\nabla _{v}w-\nabla _{v}\nabla _{u}w-\nabla _{[u,v]}w
+\end{align*}
+
+\noindent gdzie $[u, v]$ jest nawiasem Lie'go pól wektorowych. Dla każdej pary wektorów przyległych $u, v, R(u, v)$ jest odwzorowaniem liniowym przestrzeni stycznej na rozmaitość. Jeśli ${u = \frac{\partial}{\partial x_i}}, {v = \frac{\partial}{\partial x_j}}$ są współrzędnymi pól wektorowych to $[u, v] = 0$ (głównie dlatego, że są do siebie prostopadłe, a więc komutują). Równanie w takim wypadku sprowadza się do 
+\begin{align*}
+     R(u,v)w=\nabla _{u}\nabla _{v}w-\nabla _{v}\nabla _{u}w
+\end{align*}
+
+\begin{not*}
+Krzywizna Riemanna jest uogólnieniem krzywizny Gaussa (działa na rozmaitościach nie tylko zanurzonych w $\mathbb{R^3}$). Zależność wyraża się wzorem:
+
+\begin{align*}
+    R(u, v)u \cdot v = R_{uvuv} = KEG
+\end{align*}
+
+\noindent gdzie $K$ - krzywizna Gaussa \\
+$E, G$ - współrzędne I. formy kwadratowej
+
+\end{not*}
+
+\end{defi*}
+
+\section{Twierdzenie Egregium}
+Krzywizna Gaussa zależy tylko od współczynników E, F i G 1. formy kwadratowej:
+
+
+\begin{align*}
+    K = -\frac{1}{2\sqrt{EG}}\left( \frac{\partial}{\partial v} \left( \frac{E_v}{\sqrt{EG}} \right) + \frac{\partial}{\partial u} \left( \frac{G_u}{\sqrt{EG}}  \right)  \right)
+\end{align*}
+
+\noindent Zakładamy, że $F = 0$, czyli, że współrzędne są prostopadłe do siebie.
+
+\begin{not*}
+Krzywizna Gaussa nie zależy od doboru współrzędnych dla powierzchni. 
+\end{not*}
+
+\begin{not*}
+Izometria nie zmienia krzywizny Gaussa.
+\end{not*}
+
+\section{Krzywizna główna i średnia}
+Niech:
+
+\begin{align*}
+    \begin{split}
+        k_1 = \min_{u \in T_pM} k(u)
+    \end{split}
+    \begin{split}
+        k_2 = \max_{u \in T_pM} k(u)
+    \end{split}
+\end{align*}
+
+\noindent Zauważmy, że $k_1$ i $k_2$ odpowiadają najmniejszej i nawiększej krzywiźnie krzywych przechodzących przez punkt $p \in M$.
+
+\begin{defi*}
+Krzywizna średnia w punkcie $p \in M$ wynosi $k = (k_1 + k_2) / 2$
+\end{defi*}
+
+\begin{defi*}
+Krzywiznami głównymi w punkcie $p \in M$ nazywamy liczby $k_1$ i $k_2$
+\end{defi*}
+
+\begin{not*}
+Krzywizna Gaussa w punkcie $p \in M$ wynosi $K = k_1 k_2$
+\end{not*}
+
+\section{Symbole Christoffela}
+Symbole Christoffela to zespół liczb rzeczywistych rozwiązujących równanie:
+\begin{align*}
+    \nabla_{\frac{\partial}{\partial x_i}}\left( \frac{\partial}{\partial x_j} \right) = \sum_k \Gamma_{ij}^k \frac{\partial}{\partial x_k}
+\end{align*}
+
+\section{Współrzędne geodezyjne}
+\begin{defi*}
+Układem współrzędnych geodezyjnych nazywamy taki układ $ \{  x_1, \ldots, x_n \} $, dla którego wszystkie symbole Christofella $ \Gamma_{ij}^k = 0$
+\end{defi*}
+
+\section{Suma kątów w trójkącie na kuli, płaszczyźnie euklidesowej i hiperbolicznej}
+
+\begin{center}
+    \begin{tabular}{|c||c|c|c|}
+        \hline
+        Geometria & euklidesowa & rzutowa & hiperboliczna \\
+        Krzywizna & $k = 0$ & $k = 1$ & $k = -1$ \\
+        Kąty w $\Delta$ & $\pi$ & $ > \pi$ & $ < \pi$ \\
+        Pole w $\Delta$ & - & $(\alpha + \beta + \gamma - \pi) \cdot R^2$ &  $(\pi - \alpha - \beta - \gamma) \cdot R^2$ \\ \hline 
+    \end{tabular}
+\end{center}
+
+\section{Sfera, torus i pseudosfera}
+
+\begin{defi*}
+Sferą nazywamy każdą rozmaitość, która ma taką samą strukturę różniczkową i jest homomorficzna do:
+\begin{align*}
+    \{ v \in \mathbb{R}^n: \Vert v \Vert = 1 \}
+\end{align*}
+\end{defi*}
+
+\begin{defi*}
+Torusem nazywamy każdą rozmaitość, która ma taką samą strukturę różniczkową i jest homomorficzna do:
+\begin{align*}
+    \{ v \in \mathbb{R}^3: \min \{ \Vert u - v \Vert: y \in \{ (x, y, 0): x^2 + y^2 = 9 \} \} = 1 \}
+\end{align*}
+\end{defi*}
+
+\begin{defi*}
+Pseudosferą nazywamy każdą rozmaitość, która ma taką samą strukturę różniczkową i jest homomorficzna do płaszczyzny powstałej poprzez obrót traktrysy wokół asymptoty poziomej. Charakteryzuje się taka płaszczyzna krzywizną równą $-\frac{1}{r^2}$
+\end{defi*}
+
+\section{Sformułowanie twierdzenia Gaussa-Bonneta}
+
+Niech $M$ będzie rozmaitością Riemannowską z ograniczeniem $\partial M$. Niech $K$ będzie krzywizną Gaussa, $k_g$ krzywizną geodezyjną na $\partial M$, wtedy:
+
+\begin{align*} 
+\iint_M K \,dt + \int_{\partial M} k_g \,dS + \sum \text{kąty zewnętrzne} = 2\pi \chi(M)
+\end{align*}
+
+\begin{not*}
+$\chi (M)$ jest charakterystyką Eulera, niezmienniczą względem izometrii. Dla wielościanów wyraża się wzorem
+
+\begin{align*}
+    \chi (M) = \# \text{wierzchołki} - \# \text{krawędzie} + \# \text{ściany}
+\end{align*}
+
+\end{not*}
+
+
+\section{Krzywizna geodezyjna}
+
+\begin{defi*}
+Niech $M$ będzie powierzchnią, $c$ krzywą na $M$ oraz niech $e_1(t), e_2(t)$ będą polami wektorowymi wyznaczającymi reper Freneta wzdłuż c. Wtedy krzywizną geodezyjną w punkcie $c(t)$ nazywamy liczbę
+
+\begin{align*}
+    k_g(t) = \left< \frac{De_1}{dt}(t), e_2(t) \right>
+\end{align*}
+
+\noindent gdzie $\left< \cdot , \cdot  \right>$ oznacza iloczyn skalarny z metryką Riemanna, a 
+ $\frac{De_1}{dt}(t)$ pochodną kowariantną wzdłuż $c$.
+\end{defi*}
+
+\begin{not*}
+Krzywiznę geodezyjną można interpretować jako wielkość rzutu składowej przyspieszenia $c$ na wektor $T \times U$, czyli na płaszczyznę styczną. Istotnie, jeżeli $c$ jest krzywą parametryzowaną łukowo, to jej krzywizną geodezyjną nazywamy $\left< c'', T \times U \right>$.
+\end{not*}
+
+\section{Pole wektorowe, pochodna kowariantna (wraz z indukowaną)\\ i przesunięcie równoległe}
+
+\begin{defi*}
+Pole wektorowe – funkcja, która każdemu punktowi przestrzeni przyporządkowuje pewną wielkość wektorową.
+\end{defi*}
+
+\begin{defi*}
+Dla pola wektorowego definiujemy pochodną kowariantną w $\mathbb{R}^n$ jako
+
+\begin{align*}
+    \nabla_V^{\mathbb{R}^n} = \sum_{i=0}^n V[Z^i]e_i
+\end{align*}
+
+\noindent gdzie $V[Z^i]$ oznacza zwykła pochodną kierunkową w $\mathbb{R}^n$
+\end{defi*}
+
+\begin{defi*}
+Pochodną kowariantną na M definiujemy jako rzut ortogonalny na $T_pM$:
+
+\begin{align*}
+    \nabla_v Z = \text{proj}_{T_pM} \nabla_V^{\mathbb{R}^n} Z
+\end{align*}
+
+\end{defi*}
+
+
+\begin{defi*}
+Niech $M$ będzie rozmaitością, $\gamma: I \to M$ gładką krzywą.
+Niech $e_o \in T_pM$, $\gamma (0) = p \in M$. Transport równoległym $e_0$ wzdłuż $\gamma$ jest polem wektorowym $X$ ("podpolem" $TM$, czyli sekcją) takim, że:
+\begin{enumerate}
+    \item $\nabla_{\gamma'} X = 0$
+    \item $X(\gamma(0)) = e_0$
+\end{enumerate}
+
+\end{defi*}
+
+\section{Pole wektorowe jako derywacja, nawias Lie'go pól wektorowych}
+
+\begin{not*}
+Każde gładkie pole wektorowe może być rozpatrywane jako operator różniczkowania działający na gładkich funkcjach na $M$.
+Istotnie, każde pole wektorowe $X$ staje się derywacją na $C^\infty$, jeśli zdefiniujemy $X(f)$ jako funkcję, która w punkcie $p$ jest pochodną kierunkową $f$ w p w kierunku $X(p)$.
+
+\end{not*}
+
+\begin{defi*}
+Dla pól wektorowych $X, Y$, nawiasem Lie'go nazywamy pole wektorowe $[X, Y]$, takie, że:
+
+\begin{align*}
+    [X, Y](f) = X(Y(f)) - Y(X(f))
+\end{align*}
+
+\end{defi*}
+
+\begin{not*}
+Nawias Lie'go pełni rolę komutatora, tzn. mierzy przemienność pól wektorowych.
+\end{not*}
+
+\begin{ex*}
+\begin{align*}
+    \nabla_{\frac{\partial}{\partial x_i}}(\frac{\partial}{\partial x_j}) = \nabla_{\frac{\partial}{\partial x_j}}(\frac{\partial}{\partial x_i}) + [\frac{\partial}{\partial x_i}, \frac{\partial}{\partial x_j}]
+\end{align*}
+
+\noindent Gdy pola wektorowe $\frac{\partial}{\partial x_i}, \frac{\partial}{\partial x_j}$ będą przemienne (nawias Lie'go równy 0), to pochodne kowariantne będą przemienne.
+
+\end{ex*}
+
+\section{Skręcenie i płaskość krzywej przestrzennej}
+Ten składnik został omówiony w punkcie o krzywiźnie krzywych, ale powtarzając, za skręcenie odpowiada druga krzywizna. Gdy wynosi ona 0, to krzywa jest płaska, czyli położona na jednej płaszczyźnie. Inne wartości tej krzywizny mówią, jak bardzo odkręca się ona od płaszczyzny generowanej przez $\{c', c''\}$
+
+\end{document}
